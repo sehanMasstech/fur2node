@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f8f8f8" />
+  <title>My Account | Home Shape</title>
+</head>
+<body class="account-page">
+  <div class="topbar"><div class="topbar-inner"><div class="topbar-locale"><button type="button">English</button><button type="button">Country</button></div><p class="shipping-message">FREE SHIPPING FOR ALL ORDERS OVER $150</p><div class="topbar-right"><a href="/account">My account</a><a href="#footer">Contact us</a></div></div></div>
+  <header class="site-header account-site-header"><a class="wordmark" href="/">Home<span>Shape</span><i>®</i></a><form class="header-search-form" role="search"><input type="search" placeholder="Search for products" aria-label="Search products" /><select class="search-category" aria-label="Choose a product category"><option>All categories</option></select><button type="button" aria-label="Search">⌕</button></form><div class="header-actions"><a class="icon-button account-link" href="/account"><span>Login / Register</span></a></div></header>
+  <nav class="main-nav account-nav"><div class="nav-inner"><a class="account-browse" href="/furniture">☰ &nbsp; BROWSE CATEGORIES</a><div class="nav-links"><a href="/">HOME</a><a href="/furniture">SHOP</a><a href="/pages?page=about">ABOUT US</a><a href="/pages?page=contact">CONTACT</a></div><a class="nav-promo" href="/furniture">SPECIAL OFFER</a></div></nav>
+  <main>
+    <header class="account-hero"><img class="account-hero-background" src="/img/furniture-title-bg-opt.jpg.webp" alt="" aria-hidden="true" /><div><h1>My Account</h1><p><a href="/">Home</a><span>/</span> My Account</p></div></header>
+    <section class="account-content" aria-label="Customer account">
+      <form class="account-form register-form" id="register-form" novalidate>
+        <h2>Register</h2>
+        <label>Username <em>*</em><input name="username" type="text" minlength="3" maxlength="40" autocomplete="username" required /></label>
+        <label>Email address <em>*</em><input name="email" type="email" maxlength="254" autocomplete="email" required /></label>
+        <label>Password <em>*</em><span class="password-field"><input name="password" type="password" minlength="8" maxlength="128" autocomplete="new-password" required /><button type="button" data-toggle-password aria-label="Show password">◉</button></span></label>
+        <p class="account-privacy">Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our <a href="/pages?page=privacy">privacy policy</a>.</p>
+        <p class="account-feedback" id="register-feedback" role="status" aria-live="polite"></p>
+        <button class="account-submit" type="submit">REGISTER</button>
+      </form>
+      <section class="account-login" aria-labelledby="login-heading">
+        <h2 id="login-heading">Login</h2>
+        <p>Login here by filling your username and password or use your favorite social network account to enter to the site. Site login will simplify the purchase process and allows you to manage your personal account.</p>
+        <button class="account-secondary" type="button" data-open-login>LOGIN</button>
+      </section>
+    </section>
+    <section class="customer-dashboard" id="customer-dashboard" hidden aria-label="Your account dashboard">
+      <aside class="customer-sidebar">
+        <div class="customer-sidebar-profile"><img id="sidebar-avatar" src="/legacy/account-avatar.svg" alt="" /><span><strong id="sidebar-name">My account</strong><small id="sidebar-email"></small></span></div>
+        <nav aria-label="Account sections">
+          <button class="active" type="button" data-dashboard-tab="overview"><span>⌂</span> Dashboard</button>
+          <button type="button" data-dashboard-tab="orders"><span>▤</span> Orders</button>
+          <button type="button" data-dashboard-tab="addresses"><span>⌂</span> Addresses</button>
+          <button type="button" data-dashboard-tab="details"><span>♙</span> Account details</button>
+          <button type="button" data-dashboard-tab="security"><span>◇</span> Password &amp; security</button>
+        </nav>
+        <button class="customer-logout" id="customer-logout" type="button"><span>↪</span> Sign out</button>
+      </aside>
+      <div class="customer-main">
+        <section class="customer-panel active" data-dashboard-panel="overview">
+          <p class="customer-eyebrow">YOUR HOME SHAPE ACCOUNT</p><h2>Welcome back, <span id="welcome-name">there</span></h2><p class="customer-intro">Manage your profile and keep track of your orders from one place.</p>
+          <div class="customer-stat-grid"><button type="button" data-dashboard-tab="orders"><span>ORDERS</span><strong id="order-count">0</strong><small>View your order history <b>↗</b></small></button><button type="button" data-dashboard-tab="details"><span>ACCOUNT</span><strong>Profile</strong><small>Update your personal details <b>↗</b></small></button></div>
+          <div class="customer-card customer-recent-orders"><div class="customer-card-heading"><div><p class="customer-eyebrow">YOUR PURCHASES</p><h3>Recent orders</h3></div><button type="button" data-dashboard-tab="orders">View all <span>↗</span></button></div><div id="recent-orders" class="customer-orders-list"></div></div>
+        </section>
+        <section class="customer-panel" data-dashboard-panel="orders" hidden>
+          <p class="customer-eyebrow">PURCHASE HISTORY</p><h2>Your orders</h2><p class="customer-intro">Order status and details will appear here.</p><div class="customer-card"><div id="customer-orders" class="customer-orders-list"></div></div>
+        </section>
+        <section class="customer-panel" data-dashboard-panel="addresses" hidden>
+          <p class="customer-eyebrow">DELIVERY DETAILS</p><h2>Your addresses</h2><p class="customer-intro">Save a delivery address for faster checkout.</p>
+          <div class="customer-card"><div id="customer-addresses" class="customer-addresses"></div><form id="address-form" class="customer-form address-form"><h3>Add an address</h3><div class="address-fields"><label>Label<input name="label" maxlength="40" placeholder="Home" /></label><label>Full name<input name="fullName" maxlength="100" autocomplete="name" required /></label><label>Phone<input name="phone" maxlength="40" autocomplete="tel" required /></label><label>Street address<input name="street" maxlength="240" autocomplete="street-address" required /></label><label>City<input name="city" maxlength="100" autocomplete="address-level2" required /></label><label>State / region<input name="region" maxlength="100" autocomplete="address-level1" /></label><label>Postal code<input name="postalCode" maxlength="24" autocomplete="postal-code" /></label><label>Country<input name="country" maxlength="80" autocomplete="country-name" required /></label></div><label class="address-default"><input name="isDefault" type="checkbox" /> Set as default address</label><p class="customer-feedback" id="address-feedback" role="status" aria-live="polite"></p><button class="account-submit" type="submit">SAVE ADDRESS</button></form></div>
+        </section>
+        <section class="customer-panel" data-dashboard-panel="details" hidden>
+          <p class="customer-eyebrow">YOUR PROFILE</p><h2>Account details</h2><p class="customer-intro">Keep your details up to date for a smoother shopping experience.</p>
+          <div class="customer-card profile-card"><form id="profile-form" class="customer-form"><label>Full name<input name="fullName" type="text" maxlength="100" autocomplete="name" placeholder="Your name" /></label><label>Username<input id="profile-username" type="text" readonly /></label><label>Email address<input id="profile-email" type="email" readonly /></label><p class="customer-feedback" id="profile-feedback" role="status" aria-live="polite"></p><button class="account-submit" type="submit">SAVE CHANGES</button></form>
+            <div class="profile-photo"><img id="profile-avatar" src="/legacy/account-avatar.svg" alt="Your profile photo" /><div><strong>Profile photo</strong><p>JPG, PNG or WebP, up to 1 MB.</p><label class="photo-upload-button" for="avatar-upload">UPLOAD PHOTO</label><input id="avatar-upload" type="file" accept="image/jpeg,image/png,image/webp" hidden /><button class="photo-remove-button" id="remove-avatar" type="button">Remove photo</button><p class="customer-feedback" id="avatar-feedback" role="status" aria-live="polite"></p></div></div>
+          </div>
+        </section>
+        <section class="customer-panel" data-dashboard-panel="security" hidden>
+          <p class="customer-eyebrow">KEEP YOUR ACCOUNT SAFE</p><h2>Password &amp; security</h2><p class="customer-intro">Choose a strong password that you do not use elsewhere.</p>
+          <div class="customer-card"><form id="password-form" class="customer-form"><label>Current password<input name="currentPassword" type="password" autocomplete="current-password" required /></label><label>New password<input name="newPassword" type="password" minlength="8" maxlength="128" autocomplete="new-password" required /></label><label>Confirm new password<input name="confirmPassword" type="password" minlength="8" maxlength="128" autocomplete="new-password" required /></label><p class="customer-feedback" id="password-feedback" role="status" aria-live="polite"></p><button class="account-submit" type="submit">UPDATE PASSWORD</button></form></div>
+        </section>
+      </div>
+    </section>
+  </main>
+  <footer class="account-footer" id="footer"><a href="/">Home Shape</a><span>Thoughtful furniture for everyday living.</span></footer>
+
+  <div class="login-backdrop" id="login-backdrop" hidden></div>
+  <aside class="login-drawer" id="login-drawer" aria-labelledby="drawer-title" aria-modal="true" role="dialog" hidden>
+    <div class="drawer-heading"><h2 id="drawer-title">Sign in</h2><button type="button" data-close-login><span aria-hidden="true">×</span> Close</button></div>
+    <form class="drawer-form" id="login-form" novalidate>
+      <label>Username or email address <em>*</em><input name="identifier" type="text" autocomplete="username" required /></label>
+      <label>Password <em>*</em><span class="password-field"><input name="password" type="password" autocomplete="current-password" required /><button type="button" data-toggle-password aria-label="Show password">◉</button></span></label>
+      <p class="account-feedback" id="login-feedback" role="status" aria-live="polite"></p>
+      <button class="account-submit" type="submit">LOG IN</button>
+      <div class="drawer-options"><label><input type="checkbox" name="remember" /> Remember me</label><a href="#register-form" data-close-login>Need an account?</a></div>
+    </form>
+    <div class="social-divider"><span>OR LOGIN WITH</span></div>
+    <div class="social-placeholders"><button class="social-login-facebook" type="button" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-8.2h2.8l.4-3.2h-3.2V7.5c0-.9.3-1.5 1.6-1.5h1.7V3.1c-.3 0-1.4-.1-2.7-.1-2.7 0-4.5 1.6-4.5 4.6v2H6.8v3.2h2.8V21h3.9Z" fill="currentColor"/></svg><span>Continue with Facebook</span></button><button class="social-login-google" type="button" disabled><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#4285F4" d="M43.6 24.5c0-1.4-.1-2.8-.4-4.1H24v7.8h11a9.4 9.4 0 0 1-4.1 6.2v5.1h6.6c3.9-3.6 6.1-8.8 6.1-15Z"/><path fill="#34A853" d="M24 44c5.5 0 10.1-1.8 13.5-4.8l-6.6-5.1c-1.8 1.2-4.1 2-6.9 2-5.3 0-9.8-3.6-11.4-8.4H5.8v5.2A20 20 0 0 0 24 44Z"/><path fill="#FBBC05" d="M12.6 27.7a12 12 0 0 1 0-7.4v-5.2H5.8a20 20 0 0 0 0 17.8l6.8-5.2Z"/><path fill="#EA4335" d="M24 12c3 0 5.7 1 7.8 3.1l5.8-5.8C34.1 6 29.5 4 24 4A20 20 0 0 0 5.8 15.1l6.8 5.2C14.2 15.6 18.7 12 24 12Z"/></svg><span>Continue with Google</span></button><small>Social sign-in is not configured yet.</small></div>
+    <div class="drawer-register"><div class="person-icon" aria-hidden="true">♙</div><strong>No account yet?</strong><a href="#register-form" data-close-login>CREATE AN ACCOUNT</a></div>
+  </aside>
+</body>
+</html>

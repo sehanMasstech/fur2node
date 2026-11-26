@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#17251d" />
+  <title>Store admin | Home Shape</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css" />
+  <script src="admin.js" defer></script>
+</head>
+<body>
+  <main class="login-wrap" id="login-view">
+    <section class="login-card">
+      <a class="admin-brand" href="index.html">Home<span>Shape</span><i>®</i></a>
+      <p class="eyebrow">STORE ADMINISTRATION</p>
+      <h1>Welcome back.</h1>
+      <p class="muted">Sign in to manage your storefront and enquiries.</p>
+      <form id="login-form">
+        <label>Email address<input name="email" type="email" autocomplete="username" required /></label>
+        <label>Password<input name="password" type="password" autocomplete="current-password" required /></label>
+        <button class="button button-dark" type="submit">Sign in <span>↗</span></button>
+        <p class="form-message" id="login-message" role="alert"></p>
+      </form>
+      <a class="back-store" href="index.html">← Back to storefront</a>
+    </section>
+  </main>
+
+  <div class="admin-shell" id="admin-view" hidden>
+    <aside class="admin-sidebar" id="admin-sidebar">
+      <a class="admin-brand" href="index.html">Home<span>Shape</span><i>®</i></a>
+      <p class="sidebar-label">WORKSPACE</p>
+      <nav class="admin-nav" aria-label="Admin sections">
+        <button type="button" class="active" data-section="overview"><span>◫</span> Overview</button>
+        <button type="button" data-section="products"><span>▧</span> Products</button>
+        <button type="button" data-section="orders"><span>▤</span> Orders</button>
+        <button type="button" data-section="reviews"><span>★</span> Product reviews</button>
+        <button type="button" data-section="reports"><span>◷</span> Reports &amp; ledger</button>
+        <button type="button" data-section="content"><span>◈</span> Site content</button>
+        <button type="button" data-section="inquiries"><span>✉</span> Enquiries <i id="inquiry-badge">0</i></button>
+      </nav>
+      <nav class="admin-nav" aria-label="Store configuration"><button type="button" data-section="settings"><span>⚙</span> Store settings</button></nav>
+      <div class="sidebar-bottom">
+        <a href="index.html" target="_blank" rel="noreferrer">↗ View storefront</a>
+        <button id="logout-button" type="button">↪ Sign out</button>
+      </div>
+    </aside>
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <button class="sidebar-toggle" id="sidebar-toggle" type="button" aria-label="Toggle navigation">☰</button>
+        <div><p class="eyebrow">HOME SHAPE / ADMIN</p><h1 id="page-heading">Overview</h1></div>
+        <span class="admin-avatar" id="admin-avatar">A</span>
+      </header>
+      <div id="notice" class="notice" role="status" hidden></div>
+
+      <section class="admin-section active" id="section-overview">
+        <div class="welcome-card"><div><p class="eyebrow">YOUR STORE, AT A GLANCE</p><h2>Make room for good things.</h2><p>Keep products fresh, answer new enquiries, and shape the details customers see across your site.</p></div><a href="index.html" target="_blank" rel="noreferrer">Open storefront <span>↗</span></a></div>
+        <div class="stat-grid">
+          <article class="stat-card"><span>Catalog products</span><strong id="stat-products">—</strong><small>Active and draft products</small></article>
+          <article class="stat-card"><span>Total enquiries</span><strong id="stat-inquiries">—</strong><small>Contact requests and signups</small></article>
+          <article class="stat-card"><span>Needs your attention</span><strong id="stat-new">—</strong><small>New, unread enquiries</small></article>
+        </div>
+        <article class="panel-card quick-panel"><div class="panel-heading"><div><p class="eyebrow">QUICK EDIT</p><h2>What would you like to do?</h2></div></div><div class="quick-actions"><button type="button" data-go="products"><span>＋</span><b>Add a product</b><small>Update your furniture collection</small></button><button type="button" data-go="content"><span>✎</span><b>Edit site content</b><small>Refresh your pages and footer</small></button><button type="button" data-go="inquiries"><span>✉</span><b>View enquiries</b><small>See customer messages</small></button></div></article>
+      </section>
+
+      <section class="admin-section" id="section-products">
+        <div class="section-toolbar"><div><p class="eyebrow">YOUR CATALOG</p><h2>Products</h2><p>Products saved here appear in your storefront catalog.</p></div><button class="button button-dark" id="new-product" type="button">＋ Add product</button></div>
+        <article class="panel-card category-manager-panel">
+          <div class="panel-heading"><div><p class="eyebrow">SHOP ORGANIZATION</p><h2>Categories</h2><p class="category-manager-description">Build your menu with main categories, subcategories, and child categories.</p></div><span class="category-manager-count" id="category-count">0 categories</span></div>
+          <div class="category-manager-grid">
+            <div class="category-tree" id="category-tree" role="tree" aria-label="Product category hierarchy"></div>
+            <form class="category-form" id="category-form">
+              <p class="eyebrow" id="category-form-kicker">NEW CATEGORY</p>
+              <h3 id="category-form-heading">Add a category</h3>
+              <label>Category name<input id="category-name" name="categoryName" maxlength="60" required placeholder="e.g. Lounge chairs" /></label>
+              <label>Parent category<select name="categoryParent"></select><small>Choose a parent to create a subcategory or child category.</small></label>
+              <div class="category-form-actions"><button class="button button-dark" id="category-save" type="submit">Add category</button><button class="text-button" id="category-cancel" type="button" hidden>Cancel</button></div>
+            </form>
+          </div>
+        </article>
+        <div class="products-layout">
+          <div class="panel-card product-list-panel"><div class="list-tools"><label class="sr-only" for="product-search">Search products</label><input id="product-search" type="search" placeholder="Search products by name, brand or category..." /><select id="product-filter" aria-label="Filter products"><option value="all">All products</option><option value="active">Active</option><option value="draft">Draft</option></select></div><div class="product-list-heading"><div><p class="eyebrow">YOUR INVENTORY</p><h3>Product catalog</h3></div><label class="page-size-label">Show<select id="product-page-size" aria-label="Products per page"><option value="8">8</option><option value="12">12</option><option value="24">24</option></select><span>per page</span></label></div><div id="product-list" class="product-list"></div><div class="product-pagination" id="product-pagination" aria-label="Product list pagination"></div></div>
+          <form id="product-form" class="panel-card product-editor">
+            <div class="panel-heading"><div><p class="eyebrow" id="product-form-kicker">PRODUCT DETAILS</p><h2 id="product-form-title">Add a product</h2></div><button class="text-button" type="button" id="cancel-product">Close</button></div>
+            <input name="id" type="hidden" />
+            <label>Product name<input name="name" maxlength="120" required placeholder="e.g. Oak lounge chair" /></label>
+            <div class="form-row"><label>Category<select name="categoryId" required></select></label><label>Brand<input name="brand" maxlength="80" placeholder="Brand name" /></label></div>
+            <div class="form-row"><label>Price (د.إ)<input name="price" type="number" min="0" step="0.01" required /></label><label>Compare-at price<input name="oldPrice" type="number" min="0" step="0.01" /></label></div>
+            <label>Image path<input name="image" maxlength="500" required placeholder="img/product-photo.jpg" /></label>
+            <label>Hover image path<input name="hoverImage" maxlength="500" placeholder="img/product-photo-hover.jpg" /></label>
+            <label>Description<textarea name="description" rows="3" maxlength="10000"></textarea></label>
+            <div class="product-detail-content-editor"><div><p class="eyebrow">PRODUCT PAGE</p><h3>Designed for modern living section</h3><small>Set this copy and image pair for this product. Leave fields blank to use the storefront defaults.</small></div><label>Section heading<input name="detailHeading" maxlength="160" placeholder="Designed for modern living" /></label><label>Feature bullets, one per line<textarea name="features" rows="5" placeholder="Minimalist aesthetic that fits any space.&#10;Ergonomically shaped for maximum support."></textarea></label><label>Section description<textarea name="detailDescription" rows="3" maxlength="10000" placeholder="Additional product story copy"></textarea></label><div class="form-row"><label>Section image 1<input name="detailImageOne" maxlength="1000" placeholder="img/product-description-1.webp" /></label><label>Section image 2<input name="detailImageTwo" maxlength="1000" placeholder="img/product-description-2.webp" /></label></div></div>
+            <div class="form-row"><label>Colors <small>Comma separated, in the same order as color images</small><input name="colors" placeholder="Oak, Black, Sage" /></label><label>Collections <small>Comma separated</small><input name="collections" placeholder="Featured, Best Sellers" /></label></div>
+            <label>Color images <small>One image path per color, in the same order. Leave a line blank to use the main product image.</small><textarea name="colorImages" rows="3" placeholder="img/chair-oak.jpg&#10;img/chair-black.jpg&#10;img/chair-sage.jpg"></textarea></label>
+            <div class="form-row"><label>Badge<input name="badge" maxlength="30" placeholder="New, Sale…" /></label><label class="checkbox-label"><input name="active" type="checkbox" checked /> Visible in storefront</label></div>
+            <div class="editor-actions"><button class="button button-dark" type="submit">Save product</button><button class="text-button delete-product" id="delete-product" type="button" hidden>Delete product</button></div>
+          </form>
+        </div>
+      </section>
+
+      <section class="admin-section" id="section-orders"><div class="section-toolbar"><div><p class="eyebrow">CUSTOMER PURCHASES</p><h2>Orders</h2><p>Review delivery details and update each order as it moves through fulfilment.</p></div></div><div id="admin-orders-list" class="admin-orders-list"></div></section>
+      <section class="admin-section" id="section-reviews"><div class="section-toolbar"><div><p class="eyebrow">CUSTOMER FEEDBACK</p><h2>Product reviews</h2><p>Approve verified purchase reviews and reply under a display name you choose.</p></div></div><div id="admin-reviews-list" class="admin-reviews-list"></div></section>
+
+      <section class="admin-section" id="section-reports">
+        <div class="section-toolbar"><div><p class="eyebrow">BUSINESS PERFORMANCE</p><h2>Reports &amp; ledger</h2><p>Review collected income, operating expenses, pending order value, and order level activity.</p></div><button type="button" class="button button-dark" id="report-pdf">Print / save PDF</button></div>
+        <div class="report-tools panel-card"><div class="report-presets"><button type="button" data-report-range="today">Today</button><button type="button" data-report-range="week">Last 7 days</button><button type="button" data-report-range="month">This month</button><button type="button" data-report-range="custom">Custom dates</button></div><label>From<input id="report-from" type="date" /></label><label>To<input id="report-to" type="date" /></label><label>Chart interval<select id="report-group"><option value="day">Daily</option><option value="week">Weekly</option><option value="month">Monthly</option></select></label><button type="button" class="button button-dark" id="report-refresh">Apply</button></div>
+        <div id="report-print-area"><header id="report-print-header"><h1>Home Shape · Financial report</h1><p id="report-print-range"></p></header>
+          <div class="report-summary-grid"><article class="panel-card"><span>Collected income</span><strong id="report-income">AED 0.00</strong></article><article class="panel-card"><span>Expenses</span><strong id="report-expenses">AED 0.00</strong></article><article class="panel-card"><span>Net income</span><strong id="report-profit">AED 0.00</strong></article><article class="panel-card"><span>Pending order value</span><strong id="report-pending">AED 0.00</strong></article></div>
+          <article class="panel-card report-chart-card"><div class="panel-heading"><div><p class="eyebrow">INCOME &amp; EXPENSES</p><h2>Cash flow</h2></div></div><div id="report-chart" class="report-chart" role="img" aria-label="Income and expense chart"></div><div class="report-legend"><span><i class="legend-income"></i> Income</span><span><i class="legend-expense"></i> Expenses</span></div></article>
+          <article class="panel-card ledger-card"><div class="panel-heading"><div><p class="eyebrow">TRANSACTION HISTORY</p><h2>Order &amp; expense ledger</h2></div></div><div id="report-ledger" class="report-ledger"></div></article>
+        </div>
+        <article class="panel-card expense-entry-card"><div class="panel-heading"><div><p class="eyebrow">OPERATING COSTS</p><h2>Record an expense</h2></div></div><form id="expense-form" class="expense-form"><label>Description<input name="description" maxlength="180" placeholder="Delivery supplies" required /></label><label>Category<input name="category" maxlength="80" placeholder="Shipping" required /></label><label>Amount (AED)<input name="amount" type="number" min="0.01" step="0.01" required /></label><label>Date<input name="date" type="date" required /></label><button class="button button-dark" type="submit">Add expense</button></form><p id="report-message" class="report-message" role="status"></p></article>
+      </section>
+
+      <section class="admin-section" id="section-content">
+        <div class="section-toolbar"><div><p class="eyebrow">YOUR STOREFRONT</p><h2>Site content</h2><p>One place to update your homepage, pages, menu, emails and footer.</p></div></div>
+        <form id="content-form" class="content-editor">
+          <input type="hidden" name="heroEyebrow" /><input type="hidden" name="heroTitle" /><input type="hidden" name="heroEmphasis" /><input type="hidden" name="heroDescription" /><input type="hidden" name="heroImage" /><input type="hidden" name="heroPrice" />
+          <article class="panel-card content-card"><div class="panel-heading"><div><p class="eyebrow">BRAND & ANNOUNCEMENT</p><h2>Store identity</h2></div></div><div class="form-row"><label>Store name<input name="siteName" required /></label><label>Top announcement bar<input name="announcement" /></label></div></article>
+          <nav class="homepage-editor-menu" aria-label="Homepage sections">
+            <button type="button" class="active" data-home-editor="hero">Hero slider</button><button type="button" data-home-editor="categories">Featured categories</button><button type="button" data-home-editor="products">Featured products</button><button type="button" data-home-editor="landing">Product landing</button><button type="button" data-home-editor="story">Home Shape story</button><button type="button" data-home-editor="brands">Brands</button>
+          </nav>
+          <div class="homepage-save-bar"><span>Homepage sections</span><button class="button button-dark" type="submit">Save homepage</button></div>
+          <div class="homepage-editor-panel active" data-home-panel="hero">
+            <article class="panel-card content-card"><div class="panel-heading"><div><p class="eyebrow">HOMEPAGE / HERO</p><h2>Hero slider</h2><p>Edit the text and image for each rotating banner.</p></div></div><div class="home-editor-list" data-home-list="heroSlides"></div></article>
+          </div>
+          <div class="homepage-editor-panel" data-home-panel="categories">
+            <article class="panel-card content-card"><div class="panel-heading"><div><p class="eyebrow">HOMEPAGE / CATEGORIES</p><h2>Featured categories</h2></div></div><div class="form-row"><label>Section label<input name="homeCollectionKicker" /></label><label>Heading<input name="homeCollectionTitle" /></label></div><label>Introduction<textarea name="homeCollectionDescription" rows="2"></textarea></label><h3 class="home-list-heading">Category cards</h3><div class="home-editor-list" data-home-list="featuredCategories"></div></article>
+          </div>
+          <div class="homepage-editor-panel" data-home-panel="products">
+            <article class="panel-card content-card"><div class="panel-heading"><div><p class="eyebrow">HOMEPAGE / PRODUCTS</p><h2>Featured products</h2></div></div><div class="form-row"><label>Section label<input name="homeProductKicker" /></label><label>Heading<input name="homeProductsTitle" /></label></div><label>Introduction<textarea name="homeProductsDescription" rows="2"></textarea></label><p class="muted">The product cards and collection tabs use the catalog in Products. Mark items Featured or Best Sellers in each product editor.</p></article>
+          </div>
+          <div class="homepage-editor-panel" data-home-panel="landing">
+            <article class="panel-card content-card"><div class="panel-heading"><div><p class="eyebrow">HOMEPAGE / PRODUCT LANDING</p><h2>Product landing slides</h2><p>Change the featured product name, specifications, price and image.</p></div></div><div class="home-editor-list" data-home-list="homeLandingSlides"></div></article>
+          </div>
+          <div class="homepage-editor-panel" data-home-panel="story">
+            <article class="panel-card content-card"><div class="panel-heading"><div><p class="eyebrow">HOMEPAGE / STORY</p><h2>Home Shape, Made For Living</h2></div></div><div class="form-row"><label>Section label<input name="homeAboutKicker" /></label><label>Heading<input name="homeAboutTitle" /></label></div><label>Copy<textarea name="homeAboutDescription" rows="3"></textarea></label><div class="form-row"><label>Image path<input name="homeAboutImage" /></label><label>Image description<input name="homeAboutImageAlt" /></label></div><div class="form-row"><label>Read More link<input name="homeAboutReadUrl" /></label><label>Contact link<input name="homeAboutContactUrl" /></label></div></article>
+          </div>
+          <div class="homepage-editor-panel" data-home-panel="brands">
+            <article class="panel-card content-card"><div class="panel-heading"><div><p class="eyebrow">HOMEPAGE / BRANDS</p><h2>Brand strip</h2><p>Update the logos shown across the homepage.</p></div></div><div class="home-editor-list home-brand-list" data-home-list="homeBrands"></div></article>
+          </div>
+          <details class="panel-card content-card homepage-extra"><summary>Other homepage sections (newsletter & journal)</summary><div class="form-row"><label>Newsletter heading<input name="homeNewsletterTitle" /></label><label>Journal label<input name="homeJournalKicker" /></label></div><div class="form-row"><label>Journal heading<input name="homeJournalTitle" /></label><label>Journal introduction<textarea name="homeJournalDescription" rows="2"></textarea></label></div></details>
+          <article class="panel-card content-card">
+            <div class="panel-heading"><div><p class="eyebrow">PAGES</p><h2>About, story & contact</h2></div></div>
+            <div class="contact-admin-fields"><p class="eyebrow">ABOUT PAGE</p><h3>Opening section</h3><div class="form-row"><label>Page heading<input name="aboutTitle" /></label><label>Opening label<input name="aboutIntroEyebrow" /></label></div><label>Opening introduction<textarea name="aboutIntro" rows="2"></textarea></label><label>Opening copy<textarea name="aboutBody" rows="3"></textarea></label><label>Opening background image<input name="aboutHeroBackgroundImage" placeholder="img/furniture-title-bg-opt.jpg.webp" /></label><label>Intro cards, one per line: heading | description<textarea name="aboutFeatures" rows="3"></textarea></label>
+              <h3>About our store</h3><div class="form-row"><label>Section eyebrow<input name="aboutSectionEyebrow" /></label><label>Section heading<input name="aboutSectionTitle" /></label></div><label>Section introduction<textarea name="aboutSectionIntro" rows="2"></textarea></label><label>Image path<input name="aboutImage" placeholder="img/furniture-title-bg-opt.jpg.webp" /></label><label>Image description<input name="aboutImageAlt" /></label><label>Values, one per line: heading | description<textarea name="aboutValues" rows="4"></textarea></label>
+              <h3>Our team</h3><div class="form-row"><label>Team eyebrow<input name="aboutTeamEyebrow" /></label><label>Team heading<input name="aboutTeamTitle" /></label></div><label>Team introduction<textarea name="aboutTeamIntro" rows="2"></textarea></label><div class="about-team-editor-heading"><div><strong>Team members</strong><small>Add each person or group and upload their photo.</small></div><button class="button button-dark" type="button" id="about-team-add">Add team member</button></div><div class="about-team-editor-list" data-about-team-list></div>
+              <h3>Company facts &amp; story</h3><label>Facts, one per line: value | label<textarea name="aboutStats" rows="4"></textarea></label><div class="form-row"><label>History eyebrow<input name="aboutHistoryEyebrow" /></label><label>History heading<input name="aboutHistoryTitle" /></label></div><label>Company story<textarea name="aboutHistoryBody" rows="3"></textarea></label><label>History image path<input name="aboutHistoryImage" placeholder="img/main-egg-chair.jpg.webp" /></label>
+              <h3>Furniture gallery</h3><label>Gallery heading<input name="aboutGalleryTitle" /></label><label>One image path per line<textarea name="aboutGallery" rows="5"></textarea><small>These images appear in the closing gallery section of the About page.</small></label>
+            </div>
+            <h3>Account page</h3><label>Account page hero background image<input name="accountHeroBackgroundImage" placeholder="img/furniture-title-bg-opt.jpg.webp" /><small>Image behind the My Account heading.</small></label>
+            <div class="form-row"><label>Our story title<input name="storyTitle" /></label><label>Our story introduction<textarea name="storyIntro" rows="2"></textarea></label></div>
+            <label>Our story copy<textarea name="storyBody" rows="3"></textarea></label>
+            <label>Our story page hero background image<input name="storyHeroBackgroundImage" placeholder="img/furniture-title-bg-opt.jpg.webp" /><small>Image behind “A HOME SHAPE STORY” and the Our story heading.</small></label>
+            <div class="contact-admin-fields">
+              <p class="eyebrow">CONTACT PAGE</p>
+              <h3>Page introduction</h3>
+              <div class="form-row"><label>Top label<input name="contactEyebrow" /></label><label>Page title<input name="contactTitle" /></label></div>
+              <label>Page introduction<textarea name="contactIntro" rows="2"></textarea></label>
+              <label>Page hero background image<input name="contactHeroBackgroundImage" placeholder="img/furniture-title-bg-opt.jpg.webp" /><small>Upload a furniture image or paste a path; it appears behind the Contact page title.</small></label>
+              <div class="form-row"><label>Introduction kicker<input name="contactInfoEyebrow" /></label><label>Introduction heading<input name="contactInfoTitle" /></label></div>
+              <label>Introduction copy<textarea name="contactInfoDescription" rows="2"></textarea></label>
+              <div class="form-row"><label>Contact image path<input name="contactImage" placeholder="img/contact-showroom.jpg" /></label><label>Image description<input name="contactImageAlt" /></label></div>
+              <h3>Contact details & location</h3>
+              <div class="form-row"><label>Visit label<input name="contactVisitLabel" /></label><label>Address<input name="contactAddress" /></label></div>
+              <div class="form-row"><label>Phone label<input name="contactCallLabel" /></label><label>Phone number<input name="contactPhone" /></label></div>
+              <div class="form-row"><label>Email label<input name="contactEmailLabel" /></label><label>Contact email<input name="contactEmail" type="email" /></label></div>
+              <label>Opening-hours label<input name="contactHoursLabel" /></label>
+              <label>Opening hours<textarea name="contactHours" rows="3"></textarea><small>One day or schedule per line.</small></label>
+              <div class="form-row"><label>Location heading<input name="contactLocationTitle" /></label><label>Location description<textarea name="contactLocationDescription" rows="2"></textarea></label></div>
+              <h3>Location map section</h3>
+              <label class="checkbox-label"><input name="contactShowMap" type="checkbox" checked /> Show the location map section</label>
+              <div class="form-row"><label>Map embed URL<input name="contactMapEmbedUrl" type="url" placeholder="https://www.google.com/maps/embed?..." /><small>Optional. If blank, the map is generated from the saved address.</small></label><label>Directions URL<input name="contactMapLinkUrl" type="url" placeholder="https://maps.google.com/..." /><small>Leave blank to create a directions link from the address.</small></label></div>
+              <label>Directions link label<input name="contactMapLinkLabel" /></label>
+              <h3>Contact form</h3>
+              <div class="form-row"><label>Form kicker<input name="contactFormEyebrow" /></label><label>Form heading<input name="contactFormTitle" /></label></div>
+              <label>Form description<textarea name="contactFormDescription" rows="2"></textarea></label>
+              <div class="form-row"><label>Name field label<input name="contactFormNameLabel" /></label><label>Email field label<input name="contactFormEmailLabel" /></label></div>
+              <div class="form-row"><label>Subject field label<input name="contactFormSubjectLabel" /></label><label>Message field label<input name="contactFormMessageLabel" /></label></div>
+              <div class="form-row"><label>Submit button label<input name="contactFormSubmitLabel" /></label><label>Success message<input name="contactSuccessMessage" /></label></div>
+              <label>Reply-time note<input name="contactResponseNote" /></label>
+              <h3>Helpful questions</h3>
+              <div class="form-row"><label>FAQ kicker<input name="contactFaqEyebrow" /></label><label>FAQ heading<input name="contactFaqTitle" /></label></div>
+              <small>The Contact page displays the first four entries from the site FAQ list.</small>
+            </div>
+          </article>
+          <article class="panel-card content-card"><div class="panel-heading"><div><p class="eyebrow">SITE NAVIGATION</p><h2>Main menu</h2></div></div><label>One link per line: label | URL<textarea name="navigation" rows="5" required></textarea><small>Example: About us | pages.html?page=about</small></label></article>
+          <article class="panel-card content-card"><div class="panel-heading"><div><p class="eyebrow">HELP & INSPIRATION</p><h2>FAQs & blog</h2></div></div><label>Blog page hero background image<input name="blogHeroBackgroundImage" placeholder="img/blog-grid-7.jpg.webp" /><small>Image behind “Notes for a more considered home”.</small></label><label>Frequently asked questions<textarea name="faqs" rows="8" required></textarea><small>One per line. Separate the question and answer with a | character.</small></label><label>Blog articles<textarea name="posts" rows="8" required></textarea><small>One per line: title | excerpt | image path | date. The article URL is generated from the title.</small></label><label>Article sections<textarea name="postSections" rows="9"></textarea><small>One section per line: post title | section heading | paragraphs (use ~ between paragraphs) | optional image path. Match the title to a blog article above.</small></label><div class="form-row"><label>Article author<input name="blogAuthorName" /></label><label>Author image path<input name="blogAuthorImage" /></label></div><label>Author introduction<textarea name="blogAuthorBio" rows="2"></textarea></label></article>
+          <article class="panel-card content-card"><div class="panel-heading"><div><p class="eyebrow">EMAIL SIGNUP</p><h2>Enquiry popup</h2></div></div><label class="checkbox-label"><input name="popupEnabled" type="checkbox" /> Show the email enquiry popup on the storefront</label><label>Popup heading<input name="popupTitle" /></label><label>Popup message<textarea name="popupDescription" rows="2"></textarea></label><label>Button label<input name="popupButton" /></label></article>
+          <article class="panel-card content-card"><div class="panel-heading"><div><p class="eyebrow">SITEWIDE</p><h2>Footer details & links</h2></div></div><label>Footer description<textarea name="footerDescription" rows="2"></textarea></label><div class="form-row"><label>Footer address<input name="footerAddress" /></label><label>Footer phone<input name="footerPhone" /></label></div><div class="form-row"><label>Footer email<input name="footerEmail" type="email" /></label><label>Copyright line<input name="footerCopyright" /></label></div><label>Footer columns, one link per line: column | label | URL<textarea name="footerColumns" rows="7"></textarea><small>Use the same column name to group links. Example: Explore | About us | pages.html?page=about</small></label><label>Bottom footer menu, one link per line: label | URL<textarea name="footerMenu" rows="5"></textarea></label><label>Social links, one per line: network | URL<textarea name="footerSocial" rows="4"></textarea></label></article>
+          <div class="sticky-save"><span>Changes are published immediately after saving.</span><button class="button button-dark" type="submit">Save all content <span>↗</span></button></div>
+        </form>
+      </section>
+
+      <section class="admin-section" id="section-inquiries">
+        <div class="section-toolbar"><div><p class="eyebrow">CUSTOMER MESSAGES</p><h2>Enquiries</h2><p>Contact form submissions and email signups land here.</p></div><button class="text-button" id="refresh-inquiries" type="button">↻ Refresh</button></div>
+        <div class="panel-card inquiry-panel"><div class="inquiry-filters"><button class="active" data-inquiry-filter="all" type="button">All messages</button><button data-inquiry-filter="new" type="button">New</button><button data-inquiry-filter="contact" type="button">Contact requests</button><button data-inquiry-filter="newsletter" type="button">Email signups</button></div><div id="inquiry-list" class="inquiry-list"></div></div>
+      </section>
+      <section class="admin-section" id="section-settings">
+        <div class="section-toolbar"><div><p class="eyebrow">STORE CONFIGURATION</p><h2>Settings &amp; integrations</h2><p>Search visibility, email, payment methods, and delivery providers.</p></div></div>
+        <form id="settings-form" class="settings-editor">
+          <article class="panel-card content-card"><div class="panel-heading"><div><p class="eyebrow">STORE IDENTITY</p><h2>Logo &amp; favicon</h2><p>Choose how your brand appears in the storefront header and footer. Upload images or paste an image URL.</p></div></div><label>Brand text<input name="brandText" maxlength="80" placeholder="Home Shape" /></label><label>Logo display<select name="logoMode"><option value="icon">Icon only</option><option value="text">Text only</option><option value="icon-text">Icon and text</option></select></label><label>Logo image<input name="logoImage" type="url" maxlength="1000" placeholder="Upload a logo or paste its image URL" /></label><label>Favicon image<input name="faviconImage" type="url" maxlength="1000" placeholder="Upload a favicon or paste its image URL" /></label><div class="branding-preview" id="branding-preview" aria-live="polite"><span>Storefront logo preview</span></div><small>Use a transparent PNG, SVG, or WebP logo. A square image works best for the favicon.</small></article>
+          <article class="panel-card content-card"><div class="panel-heading"><div><p class="eyebrow">SEARCH VISIBILITY</p><h2>SEO &amp; analytics</h2><p>These tags appear on public pages and search results.</p></div></div><label>Default page title<input name="seoTitle" maxlength="120" /></label><label>Search description<textarea name="seoDescription" rows="2" maxlength="320"></textarea></label><div class="form-row"><label>Search keywords<input name="seoKeywords" maxlength="500" /></label><label>Search engine visibility<select name="seoRobots"><option value="index,follow">Allow indexing</option><option value="noindex,follow">Hide from search</option></select></label></div><label>Canonical site URL<input name="canonicalUrl" type="url" placeholder="https://your-domain.com" /></label><label>Social sharing image path<input name="seoOgImage" placeholder="/img/your-image.jpg" /></label><label>Google site verification token<input name="googleSiteVerification" /></label><div class="form-row"><label>Google Analytics measurement ID<input name="googleAnalyticsId" placeholder="G-XXXXXXXXXX" /></label><label>Meta Pixel ID<input name="metaPixelId" placeholder="Numeric Pixel ID" /></label></div><small>Tracking only loads when an ID is saved. Follow consent and privacy rules for your visitors.</small></article>
+          <article class="panel-card content-card"><div class="panel-heading"><div><p class="eyebrow">EMAIL DELIVERY</p><h2>SMTP mail</h2><p>SMTP details are stored securely; passwords are never sent back after saving.</p></div><label class="settings-switch"><input name="smtpEnabled" type="checkbox" /><span>Enable SMTP</span></label></div><div class="form-row"><label>SMTP host<input name="smtpHost" placeholder="smtp.example.com" /></label><label>Port<input name="smtpPort" type="number" min="1" max="65535" value="587" /></label></div><div class="form-row"><label>Username<input name="smtpUser" autocomplete="off" /></label><label>Password<input name="smtpPassword" type="password" autocomplete="new-password" placeholder="Leave blank to keep saved password" /></label></div><div class="form-row"><label>Sender name<input name="smtpFromName" /></label><label>Sender email<input name="smtpFromEmail" type="email" /></label></div><label class="settings-switch"><input name="smtpSecure" type="checkbox" /><span>Use implicit TLS (usually port 465)</span></label><div class="smtp-actions"><p class="settings-status" id="smtp-status"></p><button class="text-button" id="smtp-test" type="button">Send test email</button></div><label class="settings-switch"><input name="activationEnabled" type="checkbox" /><span>Require email confirmation to activate new accounts</span></label><small>Test SMTP successfully before requiring account activation.</small></article>
+          <article class="panel-card content-card"><div class="panel-heading"><div><p class="eyebrow">PAYMENTS</p><h2>Checkout methods</h2><p>Cash on delivery is active. Online provider switches save setup preferences only; their checkout and verified server callbacks still need provider-specific integration.</p></div></div><label class="settings-switch"><input name="cashOnDelivery" type="checkbox" /><span>Cash on delivery</span></label><label class="settings-switch"><input name="onlineEnabled" type="checkbox" /><span>Allow online payments</span></label><div class="integration-list" id="payment-settings-list"></div><small>Google Pay is a wallet through an eligible gateway, not a standalone processor.</small></article>
+          <article class="panel-card content-card"><div class="panel-heading"><div><p class="eyebrow">DELIVERY</p><h2>Shipping &amp; courier providers</h2><p>Manual fulfilment is available. Courier provider switches save setup preferences; automatic booking is not connected yet.</p></div></div><label class="settings-switch"><input name="manualShipping" type="checkbox" /><span>Manual fulfilment</span></label><div class="integration-list" id="courier-settings-list"></div><small>Pathao, Steadfast, RedX, and Amazon Shipping need onboarding, pickup details, API credentials, and status callbacks before automatic booking works.</small></article>
+          <div class="sticky-save"><span>Credentials are never returned to the browser after saving.</span><button class="button button-dark" type="submit">Save settings <span>â†—</span></button></div>
+        </form>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

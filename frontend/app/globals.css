@@ -1,0 +1,19 @@
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html{scrollbar-width:thin;scrollbar-color:#84947b #edf0ea}
+html::-webkit-scrollbar{width:8px;height:8px}
+html::-webkit-scrollbar-track{background:#edf0ea}
+html::-webkit-scrollbar-thumb{border:2px solid #edf0ea;border-radius:999px;background:#84947b}
+html::-webkit-scrollbar-thumb:hover{background:#52694a}
+body{margin:0}
+.legacy-loading{position:fixed;z-index:9999;inset:0;display:grid;place-items:center;padding:30px;background:none!important;pointer-events:none}
+html:has(.legacy-loading),body:has(.legacy-loading){background:transparent!important;background-color:transparent!important}
+.legacy-loader-mark{position:relative;width:92px;height:92px;display:block;color:#78945b;background:none!important}
+.legacy-loader-mark i{position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px;border-radius:50%;background:currentColor;opacity:0;animation:shape-loader-float 1.35s ease-in-out infinite}
+.legacy-loader-mark i:nth-child(1){--x:-29px;--y:-12px;animation-delay:0s}.legacy-loader-mark i:nth-child(2){--x:-18px;--y:-25px;animation-delay:.1s}.legacy-loader-mark i:nth-child(3){--x:0px;--y:-30px;animation-delay:.2s}.legacy-loader-mark i:nth-child(4){--x:21px;--y:-21px;animation-delay:.3s}.legacy-loader-mark i:nth-child(5){--x:30px;--y:0px;animation-delay:.4s}.legacy-loader-mark i:nth-child(6){--x:19px;--y:22px;animation-delay:.5s}.legacy-loader-mark i:nth-child(7){--x:0px;--y:30px;animation-delay:.6s}.legacy-loader-mark i:nth-child(8){--x:-22px;--y:20px;animation-delay:.7s}
+.legacy-loader-mark b{position:absolute;left:50%;top:50%;width:9px;height:9px;border-radius:50%;background:currentColor;transform:translate(-50%,-50%);animation:shape-loader-center 1.35s ease-in-out infinite}
+@keyframes shape-loader-float{0%,100%{transform:translate(calc(var(--x)*.55),calc(var(--y)*.55)) scale(.5);opacity:.25}45%,55%{transform:translate(var(--x),var(--y)) scale(1.1);opacity:1}}
+@keyframes shape-loader-center{50%{transform:translate(-50%,-50%) scale(.45);opacity:.45}}
+@media(prefers-reduced-motion:reduce){.legacy-loader-mark i,.legacy-loader-mark b{animation-duration:3s}}
+.legacy-load-error{min-height:100vh;display:grid;place-items:center;padding:30px;color:#8f3e38;text-align:center;font:14px Arial,sans-serif}
+.legacy-load-error{color:#8f3e38;text-align:center}
