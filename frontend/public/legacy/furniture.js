@@ -17,7 +17,7 @@ for (let i = 0; products.length < 33; i += 1) {
   const base = products[i % 12];
   products.push({ ...base, id: products.length + 1, name: `${base.name} - ${extraFinishes[Math.floor(i / 12)]}`, price: Math.max(49, base.price + (i % 3) * 35) });
 }
-products = products.map((product) => ({ ...product, rating: 0, reviewCount: 0 }));
+products = products.map((product) => ({ ...product, category: product.category || "Furniture", rating: 0, reviewCount: 0 }));
 const grid = document.querySelector("#product-grid");
 const cart = new Map();
 const toast = document.querySelector(".toast");
