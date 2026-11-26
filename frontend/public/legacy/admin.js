@@ -1236,7 +1236,9 @@ function fillContentForm(value) {
     if (fields[`footer${key[0].toUpperCase()}${key.slice(1)}`]) fields[`footer${key[0].toUpperCase()}${key.slice(1)}`].value = content;
   });
   const footerPageLinkFallbacks = { "privacy policy": "pages.html?page=privacy", returns: "pages.html?page=returns" };
-  fields.footerColumns.value = (value.footer?.columns || []).flatMap((column) => (column.links || []).map((link) => {
+  const storeColumn = (value.footer?.columns || []).find((column) => String(column.title || "").trim().toLowerCase() === "our stores");
+  fields.footerStores.value = (storeColumn?.links || []).map((link) => `${link.label} | ${link.url}`).join("\n");
+  fields.footerColumns.value = (value.footer?.columns || []).filter((column) => String(column.title || "").trim().toLowerCase() !== "our stores").flatMap((column) => (column.links || []).map((link) => {
     const url = String(link.url || "").trim();
     const fallback = footerPageLinkFallbacks[String(link.label || "").trim().toLowerCase()];
     return `${column.title} | ${link.label} | ${(!url || url === "#") && fallback ? fallback : url}`;
@@ -1352,11 +1354,19 @@ contentForm.addEventListener("submit", async (event) => {
       copyright: fields.footerCopyright.value.trim(),
       columns: (() => {
         const grouped = new Map();
-        parseLines(fields.footerColumns.value, "|", ["title", "label", "url"]).forEach(({ title, label, url }) => {
-          if (!grouped.has(title)) grouped.set(title, []);
-          grouped.get(title).push({ label, url });
-        });
-        return [...grouped].map(([title, links]) => ({ title, links }));
+        parseLines(fields.footerColumns.value, "|", ["title", "label", "url"])
+          .filter(({ title }) => title.toLowerCase() !== "our stores")
+          .forEach(({ title, label, url }) => {
+            if (!grouped.has(title)) grouped.set(title, []);
+            grouped.get(title).push({ label, url });
+          });
+        const columns = [...grouped].map(([title, links]) => ({ title, links }));
+        const storeLinks = parseLines(fields.footerStores.value, "|", ["label", "url"]);
+        if (storeLinks.length) {
+          const previousIndex = (site.footer?.columns || []).findIndex((column) => String(column.title || "").trim().toLowerCase() === "our stores");
+          columns.splice(previousIndex < 0 ? columns.length : Math.min(previousIndex, columns.length), 0, { title: "Our stores", links: storeLinks });
+        }
+        return columns;
       })(),
       menu: parseLines(fields.footerMenu.value, "|", ["label", "url"]),
       social: parseLines(fields.footerSocial.value, "|", ["label", "url"])
