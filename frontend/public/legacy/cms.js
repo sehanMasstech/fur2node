@@ -216,7 +216,12 @@
     if (socials && Array.isArray(footer.social)) {
       socials.replaceChildren(...footer.social.map((item) => {
         const anchor = document.createElement("a");
-        anchor.href = safeSocialHref(item.url);
+        const href = safeSocialHref(item.url);
+        anchor.href = href;
+        if (/^https?:\/\//i.test(href)) {
+          anchor.target = "_blank";
+          anchor.rel = "noopener noreferrer";
+        }
         const networkName = { f: "Facebook", fb: "Facebook", x: "X", twitter: "X", i: "Instagram", ig: "Instagram", y: "YouTube", yt: "YouTube" }[String(item.label || "").trim().toLowerCase()];
         anchor.setAttribute("aria-label", networkName || item.label || "Social media");
         anchor.append(socialIcon(item.label));
