@@ -197,6 +197,32 @@ const site = {
       responseNote: "We usually reply within one business day.",
       faqEyebrow: "A FEW HELPFUL DETAILS",
       faqTitle: "Good to know before you reach out"
+    },
+    privacy: {
+      title: "Privacy Policy",
+      eyebrow: "YOUR PRIVACY MATTERS",
+      intro: "Understand how information is handled when you browse or shop with Home Shape.",
+      body: "Information you provide, such as contact, order, and delivery details, may be used to respond to questions and fulfill orders.\n\nStore services may process information to support payments, delivery, hosting, and site functionality. Update this policy with the services your store uses and the information they handle.\n\nContact us through the Contact Us page with questions about this policy or requests concerning your information.\n\nPlease update this starter content to accurately describe your practices and the laws that apply to your business before publishing."
+    },
+    returns: {
+      title: "Returns",
+      eyebrow: "HELP WITH YOUR ORDER",
+      intro: "Get in touch with our team before sending an item back so we can help with next steps.",
+      body: "Contact us with your order number and details of the item you want to return before sending anything back. We will reply with the next steps.\n\nAdd your return window, eligible item conditions, exclusions, shipping costs, and refund timing here. These details depend on your store’s policy.\n\nIf an item arrives damaged or incorrect, contact us promptly with your order details and photos so we can assist."
+    },
+    faqs: {
+      title: "Frequently asked questions",
+      eyebrow: "A FEW HELPFUL DETAILS",
+      intro: "Helpful answers about orders, delivery, payments and caring for your furniture.",
+      sectionEyebrow: "HOW CAN WE HELP?",
+      sectionTitle: "Good to know",
+      closingMessage: "Still have a question? We’re always happy to help.",
+      contactLinkLabel: "Contact our team"
+    },
+    blog: {
+      title: "Notes for a more considered home",
+      eyebrow: "THE HOME SHAPE JOURNAL",
+      intro: "Ideas, inspiration, and a closer look at the pieces that make a room yours."
     }
   },
   faqs: [
@@ -232,7 +258,7 @@ const site = {
     columns: [
       { title: "Recent posts", links: [{ label: "Seating that makes room for conversation", url: "pages.html?page=blog" }, { label: "Outdoor pieces, made for slow afternoons", url: "pages.html?page=blog" }] },
       { title: "Our stores", links: [{ label: "New York", url: "#" }, { label: "London", url: "#" }, { label: "Edinburgh", url: "#" }, { label: "Los Angeles", url: "#" }] },
-      { title: "Useful links", links: [{ label: "Privacy Policy", url: "#" }, { label: "Returns", url: "#" }, { label: "Contact Us", url: "pages.html?page=contact" }, { label: "FAQs", url: "pages.html?page=faqs" }, { label: "Latest News", url: "pages.html?page=blog" }] }
+      { title: "Useful links", links: [{ label: "Privacy Policy", url: "pages.html?page=privacy" }, { label: "Returns", url: "pages.html?page=returns" }, { label: "Contact Us", url: "pages.html?page=contact" }, { label: "FAQs", url: "pages.html?page=faqs" }, { label: "Latest News", url: "pages.html?page=blog" }] }
     ],
     menu: [
       { label: "Shop everything", url: "furniture.html" },

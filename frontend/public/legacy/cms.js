@@ -179,6 +179,7 @@
 
   function renderFooter(footer) {
     if (!footer) return;
+    const pageLinkFallbacks = { "privacy policy": "pages.html?page=privacy", returns: "pages.html?page=returns" };
     const footerMain = document.querySelector(".footer-main");
     if (footerMain && Array.isArray(footer.columns)) {
       const contact = footerMain.querySelector(".footer-contact");
@@ -194,7 +195,9 @@
           const item = document.createElement("li");
           const anchor = document.createElement("a");
           anchor.textContent = link.label || "";
-          anchor.href = safeHref(link.url);
+          const label = String(link.label || "").trim().toLowerCase();
+          const href = String(link.url || "").trim();
+          anchor.href = safeHref((!href || href === "#") && pageLinkFallbacks[label] ? pageLinkFallbacks[label] : href);
           item.append(anchor);
           list.append(item);
         });

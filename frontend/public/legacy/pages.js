@@ -221,14 +221,24 @@ function contactPage(site) {
 }
 
 function faqPage(site) {
+  const page = site.pages?.faqs || {};
   const faqs = Array.isArray(site.faqs) ? site.faqs : [];
-  return `${pageHero("Frequently asked questions", "Helpful answers about orders, delivery, payments and caring for your furniture.", "A FEW HELPFUL DETAILS")}
-    <section class="page-body faq-wrap"><div class="faq-heading"><p class="eyebrow">HOW CAN WE HELP?</p><h2>Good to know</h2></div><div class="faq-list">${faqs.map((faq, index) => `<article class="faq-item"><button class="faq-question" type="button" aria-expanded="${index === 0}" aria-controls="faq-answer-${index}"><span>${escapeText(faq.question)}</span><span aria-hidden="true">+</span></button><div class="faq-answer" id="faq-answer-${index}"${index ? " hidden" : ""}><p>${escapeText(faq.answer)}</p></div></article>`).join("")}</div><div class="story-callout"><p>Still have a question? We’re always happy to help.</p><a class="page-cta" href="pages.html?page=contact">Contact our team <span>↗</span></a></div></section>`;
+  return `${pageHero(page.title || "Frequently asked questions", page.intro || "Helpful answers about orders, delivery, payments and caring for your furniture.", page.eyebrow || "A FEW HELPFUL DETAILS")}
+    <section class="page-body faq-wrap"><div class="faq-heading"><p class="eyebrow">${escapeText(page.sectionEyebrow || "HOW CAN WE HELP?")}</p><h2>${escapeText(page.sectionTitle || "Good to know")}</h2></div><div class="faq-list">${faqs.map((faq, index) => `<article class="faq-item"><button class="faq-question" type="button" aria-expanded="${index === 0}" aria-controls="faq-answer-${index}"><span>${escapeText(faq.question)}</span><span aria-hidden="true">+</span></button><div class="faq-answer" id="faq-answer-${index}"${index ? " hidden" : ""}><p>${escapeText(faq.answer)}</p></div></article>`).join("")}</div><div class="story-callout"><p>${escapeText(page.closingMessage || "Still have a question? We’re always happy to help.")}</p><a class="page-cta" href="pages.html?page=contact">${escapeText(page.contactLinkLabel || "Contact our team")} <span>↗</span></a></div></section>`;
+}
+
+function policyPage(site, key) {
+  const page = site.pages?.[key] || {};
+  const title = page.title || (key === "privacy" ? "Privacy Policy" : "Returns");
+  const paragraphs = String(page.body || "").split(/\n\s*\n/).map((paragraph) => paragraph.trim()).filter(Boolean);
+  return `${pageHero(title, page.intro || "", page.eyebrow || "")}
+    <section class="page-body"><article class="page-prose policy-copy">${paragraphs.map((paragraph) => `<p>${escapeText(paragraph).replace(/\n/g, "<br />")}</p>`).join("")}<a class="page-cta" href="pages.html?page=contact">Contact us <span>↗</span></a></article></section>`;
 }
 
 function blogPage(site) {
+  const page = site.pages?.blog || {};
   const posts = Array.isArray(site.posts) ? site.posts : [];
-  return `${pageHero("Notes for a more considered home", "Ideas, inspiration, and a closer look at the pieces that make a room yours.", "THE HOME SHAPE JOURNAL", site.blogHeroBackgroundImage || "")}
+  return `${pageHero(page.title || "Notes for a more considered home", page.intro || "Ideas, inspiration, and a closer look at the pieces that make a room yours.", page.eyebrow || "THE HOME SHAPE JOURNAL", site.blogHeroBackgroundImage || "")}
     <section class="page-body"><div class="journal-grid">${posts.map((post) => {
       const url = `pages.html?page=post&slug=${encodeURIComponent(post.slug || slugifyArticleTitle(post.title))}`;
       return `<article class="journal-card"><a class="journal-image" href="${url}" aria-label="Read ${escapeText(post.title)}"><img src="${safeImageSource(post.image, "img/blog-grid-9.jpg.webp")}" alt="${escapeText(post.title)}" loading="lazy" /></a><div class="journal-copy"><time>${escapeText(post.date)}</time><h2><a href="${url}">${escapeText(post.title)}</a></h2><p>${escapeText(post.excerpt)}</p><a class="journal-read-more" href="${url}">Continue reading <span aria-hidden="true">↗</span></a></div></article>`;
@@ -275,11 +285,13 @@ const pageRenderers = {
   about: aboutPage,
   story: storyPage,
   contact: contactPage,
+  privacy: (site) => policyPage(site, "privacy"),
+  returns: (site) => policyPage(site, "returns"),
   faqs: faqPage,
   blog: blogPage,
   post: articlePage
 };
-const pageTitles = { about: "About us", story: "Our story", contact: "Contact us", faqs: "FAQs", blog: "Journal", post: "Journal article" };
+const pageTitles = { about: "About us", story: "Our story", contact: "Contact us", privacy: "Privacy Policy", returns: "Returns", faqs: "FAQs", blog: "Latest News", post: "Journal article" };
 
 window.siteContentReady.then((site) => {
   if (!site) {
@@ -291,11 +303,11 @@ window.siteContentReady.then((site) => {
   window.storeLocaleRefresh?.(pageRoot);
   const currentPage = site.pages?.[pageKey] || {};
   const articleTitle = pageKey === "post" ? site.posts?.find((post) => (post.slug || slugifyArticleTitle(post.title)) === params.get("slug"))?.title : "";
-  const pageTitle = pageKey === "contact" ? currentPage.title || pageTitles.contact : articleTitle || pageTitles[pageKey] || "About us";
+  const pageTitle = articleTitle || currentPage.title || pageTitles[pageKey] || "About us";
   document.title = `${pageTitle} | ${site.siteName || "Home Shape"}`;
-  if (pageKey === "contact") {
+  if (currentPage.intro) {
     const description = document.querySelector('meta[name="description"]');
-    if (description && currentPage.intro) description.content = currentPage.intro;
+    if (description) description.content = currentPage.intro;
   }
   document.querySelectorAll(".footer-description").forEach((node) => { node.textContent = site.footer?.description || ""; });
   document.querySelectorAll(".footer-contact-list li").forEach((row) => {

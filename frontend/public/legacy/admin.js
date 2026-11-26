@@ -1193,10 +1193,17 @@ function fillContentForm(value) {
     faqEyebrow: "A FEW HELPFUL DETAILS",
     faqTitle: "Good to know before you reach out"
   };
-  ["about", "story", "contact"].forEach((key) => {
+  const pageDefaults = {
+    privacy: { title: "Privacy Policy", eyebrow: "YOUR PRIVACY MATTERS", intro: "Understand how information is handled when you browse or shop with Home Shape.", body: "" },
+    returns: { title: "Returns", eyebrow: "HELP WITH YOUR ORDER", intro: "Get in touch with our team before sending an item back so we can help with next steps.", body: "" },
+    faqs: { title: "Frequently asked questions", eyebrow: "A FEW HELPFUL DETAILS", intro: "Helpful answers about orders, delivery, payments and caring for your furniture.", sectionEyebrow: "HOW CAN WE HELP?", sectionTitle: "Good to know", closingMessage: "Still have a question? We’re always happy to help.", contactLinkLabel: "Contact our team" },
+    blog: { title: "Notes for a more considered home", eyebrow: "THE HOME SHAPE JOURNAL", intro: "Ideas, inspiration, and a closer look at the pieces that make a room yours." }
+  };
+  ["about", "story", "contact", "privacy", "returns", "faqs", "blog"].forEach((key) => {
     const page = key === "contact"
       ? { ...contactDefaults, ...(value.pages?.contact || {}) }
-      : key === "about" ? { ...aboutDefaults, ...(value.pages?.about || {}) } : value.pages?.[key] || {};
+      : key === "about" ? { ...aboutDefaults, ...(value.pages?.about || {}) }
+        : { ...(pageDefaults[key] || {}), ...(value.pages?.[key] || {}) };
     Object.entries(page).forEach(([field, content]) => {
       const input = fields[`${key}${field[0].toUpperCase()}${field.slice(1)}`];
       if (input) input.value = content;
@@ -1228,7 +1235,12 @@ function fillContentForm(value) {
   Object.entries(value.footer || {}).forEach(([key, content]) => {
     if (fields[`footer${key[0].toUpperCase()}${key.slice(1)}`]) fields[`footer${key[0].toUpperCase()}${key.slice(1)}`].value = content;
   });
-  fields.footerColumns.value = (value.footer?.columns || []).flatMap((column) => (column.links || []).map((link) => `${column.title} | ${link.label} | ${link.url}`)).join("\n");
+  const footerPageLinkFallbacks = { "privacy policy": "pages.html?page=privacy", returns: "pages.html?page=returns" };
+  fields.footerColumns.value = (value.footer?.columns || []).flatMap((column) => (column.links || []).map((link) => {
+    const url = String(link.url || "").trim();
+    const fallback = footerPageLinkFallbacks[String(link.label || "").trim().toLowerCase()];
+    return `${column.title} | ${link.label} | ${(!url || url === "#") && fallback ? fallback : url}`;
+  })).join("\n");
   fields.footerMenu.value = (value.footer?.menu || []).map((link) => `${link.label} | ${link.url}`).join("\n");
   fields.footerSocial.value = (value.footer?.social || []).map((link) => `${link.label} | ${link.url}`).join("\n");
 }
@@ -1312,7 +1324,11 @@ contentForm.addEventListener("submit", async (event) => {
           fields[`contact${key[0].toUpperCase()}${key.slice(1)}`].value.trim()
         ])),
         showMap: fields.contactShowMap.checked
-      }
+      },
+      privacy: { title: fields.privacyTitle.value.trim(), eyebrow: fields.privacyEyebrow.value.trim(), intro: fields.privacyIntro.value.trim(), body: fields.privacyBody.value.trim() },
+      returns: { title: fields.returnsTitle.value.trim(), eyebrow: fields.returnsEyebrow.value.trim(), intro: fields.returnsIntro.value.trim(), body: fields.returnsBody.value.trim() },
+      faqs: { title: fields.faqsTitle.value.trim(), eyebrow: fields.faqsEyebrow.value.trim(), intro: fields.faqsIntro.value.trim(), sectionEyebrow: fields.faqsSectionEyebrow.value.trim(), sectionTitle: fields.faqsSectionTitle.value.trim(), closingMessage: fields.faqsClosingMessage.value.trim(), contactLinkLabel: fields.faqsContactLinkLabel.value.trim() },
+      blog: { title: fields.blogTitle.value.trim(), eyebrow: fields.blogEyebrow.value.trim(), intro: fields.blogIntro.value.trim() }
     },
     categories: categoryTreeData.map((category) => category.name),
     categoryTree: categoryTreeData,
