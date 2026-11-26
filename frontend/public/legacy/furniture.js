@@ -45,7 +45,8 @@ function safeColorClass(color) {
 function getFilteredProducts() {
   return products.filter((product) => {
     const searchMatch = `${product.name} ${product.brand}`.toLowerCase().includes(filterState.query);
-    const categoryMatch = !filterState.category || product.category === filterState.category || product.category.startsWith(`${filterState.category} > `);
+    const category = String(product.category || "Furniture");
+    const categoryMatch = !filterState.category || category === filterState.category || category.startsWith(`${filterState.category} > `);
     const colorMatch = !filterState.colors.size || [...filterState.colors].some((color) => product.colors.includes(color));
     const brandMatch = !filterState.brands.size || filterState.brands.has(product.brand);
     const sizeMatch = !filterState.sizes.size || (product.id % 4 === 0 && filterState.sizes.has("XL"));
