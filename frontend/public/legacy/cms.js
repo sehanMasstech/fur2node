@@ -153,6 +153,14 @@
     }
   }
 
+  function safeSocialHref(value) {
+    let href = String(value || "").trim();
+    if (!href || href === "#") return "#";
+    if (href.startsWith("#")) href = href.slice(1);
+    if (!/^https?:\/\//i.test(href)) href = `https://${href.replace(/^\/\//, "")}`;
+    return safeHref(href);
+  }
+
   function renderNavigation(links) {
     if (!Array.isArray(links)) return;
     const navigation = links.some((item) => String(item.label || "").trim().toLowerCase() === "home")
@@ -208,7 +216,7 @@
     if (socials && Array.isArray(footer.social)) {
       socials.replaceChildren(...footer.social.map((item) => {
         const anchor = document.createElement("a");
-        anchor.href = safeHref(item.url);
+        anchor.href = safeSocialHref(item.url);
         const networkName = { f: "Facebook", fb: "Facebook", x: "X", twitter: "X", i: "Instagram", ig: "Instagram", y: "YouTube", yt: "YouTube" }[String(item.label || "").trim().toLowerCase()];
         anchor.setAttribute("aria-label", networkName || item.label || "Social media");
         anchor.append(socialIcon(item.label));
