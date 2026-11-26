@@ -450,6 +450,14 @@
       link.href = categories[index] === "Furniture" ? "furniture.html" : `furniture.html?category=${encodeURIComponent(categories[index])}`;
       });
     });
+    const activeCategory = new URLSearchParams(window.location.search).get("category");
+    document.querySelectorAll(".category-nav > a").forEach((link) => {
+      const category = link.dataset.category || "";
+      const isActive = activeCategory
+        ? activeCategory === category || activeCategory.startsWith(`${category} > `)
+        : category === "Furniture";
+      link.classList.toggle("active", isActive);
+    });
     document.querySelectorAll(".filter-category-list").forEach((list) => {
       list.replaceChildren(...categoryTree.map((category) => renderFilterCategory(category)));
       const activeCategory = new URLSearchParams(window.location.search).get("category");
